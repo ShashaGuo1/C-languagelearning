@@ -15,30 +15,32 @@
 //	return 0;
 //}
 
-
+#include<string.h>
+#include<assert.h>
 //写一个函数可以逆序字符串内容
-void reverse_printing(char* arr[], int len)
+void reverse_printing(char* str)
 {
-	int left = 0;
-	int right = len - 1;
+	assert(str);
+	int len = strlen(str);
+	char* left = str;
+	char* right = str + len - 1;
 	while (right > left)
 	{
-		int tmp = arr[right];
-		arr[right] = arr[left];
-		arr[left] = tmp;
+		char tmp = *left;
+		*left = *right;
+		*right = tmp;
 		right--;
 		left++;
 	}
 }
+
 int main()
 {   
-	char arr[] = "abcdef";
-	int len = strlen(arr);
-	reverse_printing(arr, len);
-	int i = 0;
-	while(arr[i]!='\0'){
-		printf("%c", arr[i]);
-		i++;
-	}
+	char arr[256] = {0};
+	//scanf("%s", arr);//scanf 遇到空格就不在录入了
+	gets(arr);//读取一行中间可以有空格
+	reverse_printing(arr);
+	
+		printf("%s", arr);
 	return 0;
 }
