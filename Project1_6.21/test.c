@@ -421,3 +421,410 @@
 //有一种香，材质不均匀但是每根香燃烧完是1小时，给你两根香，帮忙确定15分钟的时间段、
 //思路：第一根香两头都点着同时把第二根香一头点燃，第一根香烧完用时30分，此时再把第二个根香另一头也点上
 //第二根香烧完正好15分钟。
+
+
+//编程
+//5为运动员参加10米跳水比赛，有人让他们预测比赛结果
+//a.说：b第二，我第一。  b说我第二，e第四
+//c说：我第一，d第二。d说：c最后，我第三
+//e说我第四，a第一
+//比赛结束后每位选手都数对了一半，请编程确定比赛名次。
+
+//int main()
+//{
+//	int a = 0, b = 0, c = 0, d = 0, e = 0;
+//	
+//		for (a = 1;a <= 5; a++)
+//		{
+//			for (b = 1; b <= 5; b++)
+//			{
+//				for (c = 1; c <= 5; c++)
+//				{
+//					for (d = 1; d <= 5; d++)
+//					{
+//						for (e = 1; e <= 5; e++)
+//						{
+//							if (((b == 2) + (a == 3)==1)
+//								&& ((b == 2) + (e == 4) == 1)
+//								&& ((c == 1) + (d == 2) == 1)
+//								&& ((c == 5) + (d == 3) == 1)
+//								&& ((e == 4) + (a == 1) == 1))
+//							{
+//								if (a * b * c * d * e==120)
+//								{
+//									printf("a=%d b=%d c=%d d=%d e=%d", a, b, c, d, e);
+//								}
+//							}
+//							
+//						}
+//					}
+//				}
+//			}
+//		}
+//	return 0;
+//}
+
+//#include<stdlib.h>
+////这句话对吗？当使用free释放掉一个指针内容后，指针变量的值被置为NULL：这里free不会改变指针的指向
+//int main()
+//{
+//	//malloc这个函数是向内存申请空间的，默认返回型是void*
+//	//申请空间
+//	int* p = (int*)malloc(10*sizeof(int));//申请了40bety空间。
+//	//使用空间
+//	//*****这里以后学习
+//	//释放空间
+//	free(p);
+//	//看监控：这里free后内存没有改，而free后系统是不会该p的值，但人为应该改值的。
+//	return 0;
+//}
+
+
+//int main()
+//{
+//	char str1[] = "hello bit";
+//	char str2[] = "hello bit";
+//	char* str3 = "hello bit";
+//	char* str4 = "hello bit";
+//	if (str1 == str2)
+//	{
+//		printf("str1 == str2\n");//两个数组的是分配不同的存储空间的，数组名指的首元素地址，这两个首元素地址自是不同的
+//	}                             //数组是放在栈上的是可以改里面的值的
+//	else
+//	{
+//		printf("str1!=str2\n");
+//	}
+//	if (str1 == str2)
+//	{
+//		printf("str3 == str4\n");//str3与ste4指向的是以个常量字符串，内存中相同常量只有一份，所以他们指向的是同一常量字符串
+//	}                            //常量是放在内存的只读数据区的，是不可修改。
+//	else
+//	{
+//		printf("str3!=str4\n");
+//	}
+//	//结果：str1!=str2  str3!=str4
+//	return 0;
+//}
+
+//下面那个是函数指针？
+//int* fun(int a,int b);//只是一个函数声明，参数是(int a,int b)，返回类型int*
+// int(*)fun(int a,int b);//这个语法是错误的。
+//int (*fun)(int a,int b);//这是函数指针*fun代表是一个指针，指向一个参数为(int a,int b)返回值为int的函数
+//(int*)fun(int a,int b);//这是一个函数声明，参数是(int a,int b)，返回类型是int*
+// 
+
+
+//定义一个函数指针，指向的函数有两个int形参并且返回一个函数指针，返回的指针指向一个有一个int形参且返回int的函数？
+//int main()
+//{
+//	//它的返回类型是去掉函数名和参数的部分
+//	int(*(*p)(int, int))(int);  //类型是：函数指针int(*)(int)
+//	return 0;
+//}
+
+
+//声明一个指向含有10个元素的数组的指针，其中每一个元素是一个函数指针，该函数的返回值是int，参数是int*
+//int main()
+//{
+//	int(*(*p)[10])(int*);
+//	return 0;
+//}
+
+//设有一下函数void fun(int n.char* s){......},则下面对函数指针的定义和赋值均正确的是。
+//void (*pf)(int,char);pf=&fun;
+//void(*pf)(int n,char* s);pf=fun;//right
+//void *pf();*pf=fun();
+//void *pf();pf=fun;
+
+//test函数设计正确的是：
+//char* arr[5]={"hello","bit"};
+//test(arr);//
+//题目内容：//下面声明函数正确的是
+//void test(char* arr);
+//void test(char** arr);//对的
+//void test(char arr[5]);
+//void test(char* arr[5]);//对的
+
+//下面代码中print_arr函数参数设计正确的？
+//int arr[3][5]={1,2,3,4,5,6,7,8,9,10};
+//print_arr(arr,3,5);//arr数组名这里表示把二维数组的首元素地址传入，arr首元素地址是第一行
+//a.void print_arr(int arr[][],int row,int col);//不对没有指定行和列
+//b.void print_arr(int* arr,int row,int col);//传的是数组这里传的是一级指针是不行的
+//c.void print_arr(int(*arr)[5],int row,int col);//对的把5个元素的数组指针
+//d.void print_arr(int (*arr)[3],int row,int col);
+
+//下面代码执行结果是？
+//int main()
+//{
+//	int a[5] = { 5,4,3,2,1 };
+//	int* ptr = (int*)(&a + 1);//(&a + 1):跳过这个数组的地址，在强转类型为int*把值付给ptr
+//	printf("%d,%d", *(a + 1), *(ptr - 1));//4 1   a是数组名是首元素地址。
+//	return 0;
+//}
+
+
+//int main()
+//{
+//	int aa[2][5] = { 10,9,8,7,6,5,4,3,2,1 };//二维数组
+//	int* ptr1 = (int*)(&aa + 1);//&aa+1:向后跳一个数组，在强转。
+//	int* ptr2 = (int*)(*(aa + 1));//aa：数组名是首元素地址对于二维数组首元素地址是数组第一行地址，aa==aa[0],
+//	//aa+1==aa[1],*(aa + 1)==aa[1]->第二行解引用相当于拿到数组名。
+//	printf("%d,%d", *(ptr1 - 1), *(ptr2 - 1));//1  6                                                                                     
+//	return 0;
+//}
+
+//编程题：实现一个函数，可以左旋字符串中的k个字符，
+//例如ABCD左旋一个字符得到BCDA
+//ABCD 左旋两个字符得到CDAB
+
+//分析一个数组有ABCD   a[0]=A;a[1]=B;a[2]=C;a[3]=D,左旋一位把a[0]移到a[3]的中其他a[1]->移到a[0],a[2]->a[1];a[3]->a[2]
+//ABCD 左旋两位
+#include<string.h>
+#include<assert.h>
+//暴力求解法方法一
+//void left_move(char* arr, int  n)//可以写成char arr[]
+//{
+//	assert(arr);//断言一下arr指针是否有效，无效是arr是一个NULL指针
+//	int i = 0;
+//	for (i = 0; i < n; i++)
+//	{
+//		int tmp = 0;
+//		tmp = *arr;
+//		int j = 1;
+//		for (j = 0; j < strlen(arr)-1; j++)
+//		{
+//			*(arr+j)= *(arr + j+1);
+//		}
+//		*(arr + strlen(arr) - 1) = tmp;
+//	}
+//}
+//方法二：三步翻转法
+//abcdef
+//把ab与cdef分别逆序变为：bafedc
+//再把整个逆序排列：cdefab
+
+//#include<assert.h>
+//void reverse(char* left, char* right)
+//{
+//	assert(left != NULL);
+//	assert(right != NULL);
+//	while (left<right)
+//	{
+//		char tmp = *left;
+//		*left = *right;
+//		*right = tmp;
+//		left++;
+//		right--;
+//	}
+//}
+//void left_move(char* arr, int n)
+//{
+//	assert(arr);
+//	int len = strlen(arr);
+//	assert(n <= len);
+//	reverse(arr,arr+n-1);//逆序左边字符串（里面放入左右两边界地址）
+//	reverse(arr+n,arr+len-1);//逆序右边字符串
+//	reverse(arr,arr+len-1);//逆序整体字符串
+//	
+//}
+//int main()
+//{//举例说明abcdef这个字符串左旋2次  abcdef'\0',先把a取出来放在一个临时变量中，再把bcdef各向前移一位，把a放在字符串尾部
+//	//在把b拿出放入临时变量中，在把字符串中其他字符向前移一位。
+//	int n = 0;
+//	char arr[] = "abcdef";
+//	printf("请输入左旋一位：");
+//	scanf("%d", &n);
+//	//left_move(arr, n);
+//	left_move(arr,n);
+//	printf("%s\n", arr);
+//	return 0;
+//}
+
+////判断两字符串是互相左旋的到的吗？方法一
+//int is_left_move(char* arr1,char*  arr2)
+//{//把所有可能都比较一遍，左旋转1，左旋转2......左旋转n
+//	int i = 0;
+//	int len = strlen(arr1);
+//	for (i = 0; i < len; i++)
+//	{
+//		left_move(arr1, 1);//每次旋转一个
+//		int ret = strcmp(arr1, arr2);
+//		if (ret == 0)//ret==0表示两字符串相等
+//		{
+//			return 1;
+//		}
+//	}
+//		return 0;
+//}
+//int main()
+//{
+//	char arr1[] = "abcdef";
+//	char arr2[] = "cdefab";
+//	//判断两字符是左旋得到的吗？
+//	int ret=is_left_move(arr1, arr2);
+//	if (ret == 1)
+//	{
+//		printf("是左旋");
+//	}
+//	else
+//	{
+//		printf("不是左旋");
+//	}
+//	return 0;
+//}
+
+
+////判断两字符串是互相左旋的到的吗？方法二
+//把arr1 重复写两编abcdefabcdef
+//而任何一个arr1的左旋字符串都是abcdefabcdef字符串的子字符串
+//#include<stdio.h>//用NULL要引的头文件
+//#include<string.h>
+//int is_left_move(char* str1, char* str2)
+//{
+//	int len1= strlen(str1);
+//	int len2 = strlen(str2);
+//	if (len1 != len2)  //判断两个字符串长度相等，在判断是否是左旋。
+//	{
+//		return 0;
+//	}
+//	//1.在str1字符串中追加一个str1字符串。
+//	//strcat( 被追加的字符串,追加的字符串):但自己给自己追加字符串不能用这个函数，否则系统会崩溃。strcat(str1, str1);
+//	//strncat可以自己追加自己strncat(被追加的字符串,追加的字符串,被追加的字符个数)
+//	strncat(str1, str1,len1);//这里str1变为abcdefabcdef
+//	
+//	//2.判断str2指向的字符串是否是str1指向的字符串的子串。
+//	//strstr-找子串的函数:strstr(str1, str2);在str1：abcdefabcdef中找str2：cdefab如果找到了把字符串str1中c的地址传出来
+//	//若找不到则返回一个空指针。
+//	char* ret=strstr(str1, str2);
+//	if (ret == NULL)
+//	{
+//		return 0;
+//	}
+//	else
+//	{
+//		return 1;
+//	}
+//}
+//int main()
+//{
+//	char arr1[30] = "abcdef";
+//	char arr2[] = "cdefab";
+//	int ret=is_left_move(arr1, arr2);
+//	if (ret == 1)
+//	{
+//		printf("yes\n");
+//	}
+//	else
+//	{
+//		printf("no\n");
+//	}
+//
+//	return 0;
+//}
+
+
+//编程题：杨氏矩阵：有一个数字矩阵的每行从左到右是递增的，矩阵从上到下是递增的，请编写程序在这样的矩阵中查找某个数字是否
+//存在。要求:时间复杂度小于o(N);
+//1 2 3
+//4 5 6
+//7 8 9  
+//1.举例说明，假如让找7，那就先拿最右边这一列中的数与7比较，因为最右一列是是每一行最大的数，
+// 依次比较，第一行右上角的数是3,3<7,则7不在第一行，把第一行去掉，这是原来的第二行变成新的第一行，新的第一行最右边是6
+// 6<7，再把这一行去掉这是原来的第三行变为了新的第一行，它的右上角的数值是9>7,说明7在这一行里但不在9所在的这一列里。
+//再让7与8这个数比较7<8,在往左比较（这里找到7用了5次）【这里是用右上角的数比较】
+// 
+//2.在举例找2，我先找右上角的这个数是3>2,而右边的一列数字从上到下是递增的，所以2一定不在第三列上
+// 
+//3.假如要找数字k，k>右上角的数说明k一定不在第一行，若k<右上角的数则k一定不在最右列上。
+// 
+//4.当然也可以用左下角的数来比较的方法
+
+//1 2 3
+//3 4 5
+//4 5 6
+//int FindNum(int arr[3][3],int k, int row, int col)
+//{
+//	//右上角的坐标
+//	int x = 0;
+//	int y = col - 1;
+//	while (x<=col-1 && y>=0)
+//	{
+//		//num与右上角数比较大小
+//		if (arr[x][y]>k)
+//		{
+//			y--;
+//		}
+//		else if  (arr[x][y]<k)
+//		{
+//			x++;
+//		}
+//		else if (arr[x][y] == k)
+//		{
+//			return 1;
+//		}
+//	}
+//	return 0;
+//}
+//int main()
+//{
+//	int arr[3][3] = { {1,2,3},{4,5,6},{7,8,9} };
+//	int k = 7;
+//	//找到返回1，否则返回0；
+//	int ret = FindNum(arr, k, 3, 3);
+//	if (ret == 1)
+//	{
+//		printf("找到了\n");
+//	}
+//	else
+//	{
+//		printf("没找到\n");
+//	}
+//	return 0;
+//}
+//优化代码，我们想知道这个数字所在的下标？
+int FindNum(int arr[3][3], int k, int* px, int* py)
+{
+	//右上角的坐标
+	int x = 0;
+	int y = *py - 1;
+	while (x <= *px - 1 && y >= 0)
+	{
+		//num与右上角数比较大小
+		if (arr[x][y] > k)
+		{
+			y--;
+		}
+		else if (arr[x][y] < k)
+		{
+			x++;
+		}
+		else if (arr[x][y] == k)
+		{
+			*px = x;
+			*py = y;
+			return 1;
+		}
+	}
+	return 0;
+}
+int main()
+{
+	int arr[3][3] = { {1,2,3},{4,5,6},{7,8,9} };
+	int k = 7;
+	int x = 3;
+	int y = 3;
+	//找到返回1，否则返回0；
+	//返回型参数（ &x, &y）可以把值带回来
+	int ret = FindNum(arr, k, &x, &y);
+	if (ret == 1)
+	{
+		printf("找到了\n");
+		printf("下标为%d %d\n", x, y);
+	}
+	else
+	{
+		printf("没找到\n");
+	}
+	return 0;
+}
+
