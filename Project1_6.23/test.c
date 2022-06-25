@@ -688,40 +688,320 @@
 // 4.strok函数的第一个参数不为NULL，函数将找到str中第一个标记，strok函数将保存它在字符串中的位置。
 //5.strok函数的第一个参数为NULL，函数将在同一个字符串中被保存的位置开始，查找下一个标记。
 //6.如果字符串中不存在更多的标记，则返回NULL指针
-#include<stdio.h>
-#include<string.h>
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	//192.168.31.121
+//	//192  168 31 121
+//	//1283784@qq.com
+//	//1283784 qq com
+//	char arr1[] = "192.168.31.121";
+//	char* p1 = ".";
+//	char arr[] = "1283784@qq.com";
+//	char* p = "@.";//这是存分隔符的数组
+//	//strtok这个函数是从arr这个数组中找p里的分隔符，先找到了@这个分隔符时把@改为'\0',在把首元素1的地址返回，从1的地址
+//	//在往回打印：打印出1283784遇到'\0'停止，在调strtok这个函数是在从刚刚'\0'这个位置起始再找'.'找到后把'.'改为’\0'
+//	//在把之前\0的地址返回打印出qq,在调用strtok函数，再以上一个\0为起始找一直找到arr[]结尾的字符串，打印出来com。
+//	char buf[1024] = { 0 };
+//	strcpy(buf, arr);//在buf中拷贝arr
+//	char* ret = NULL;//接收函数返回值，（如果字符串中不存在更多的标记，则返回NULL指针）
+//	for (ret = strtok(buf, p); ret != NULL;ret=strtok(NULL,p))//ret = strtok(buf, p)这个是触发条件,
+//		//满足ret != NULL说明字符串中存在更多的标记打印字符串,在执行ret=strtok(NULL,p)；这里的NULL指要拿第二个标记
+//		//并放入ret中
+//	{
+//		printf("%s\n", ret);
+//	}
+//
+//	////切割buf
+//	////第一次切割
+//	//char* ret = strtok(buf, p);//这里ret是1的地址，这个函数把第一个\0的位置记住了。
+//	//printf("%s\n", ret);//1283784
+//	////第二次切割
+//	//ret = strtok(NULL, p);//把'.'找到并改为‘\0'返回q的地址，并记住'\0'的地址
+//	//printf("%s\n", ret);//qq
+//	////第三次切割
+//	//ret = strtok(NULL, p);//从c开始找发现后面没有标记了
+//	//printf("%s\n", ret);//com
+//	return 0;
+//}
+
+//strerror 返回错误码，所对应的错误信息（把错误码翻译成错误信息）
+//char* strerror(int errnum);
+//#include<errno.h>
+//int main()
+//{
+//	//错误码    错误信息                                 这是c语言中定义
+//	// 0      No error
+//	// 1      Operation not permitted
+//	// 2      No such file or directory
+//	//char* str = strerror(0);
+//	//printf("%s\n", str);//打印结果：No error
+//
+//	//char* str1 = strerror(1);
+//	//printf("%s\n", str1);//打印结果:Operation not permitted(操作被拒绝)
+//	
+//	// erron是一个全局的错误码变量。
+//	// 当c语言的库函数在执行的过程中（使用库函数是），发生了错误，就会把对应的错误码，赋值到errno中，用这个strerror(errno)
+//	// 看错误信息
+//	//char* str3 = strerror(errno);
+//	
+//	//举例说明：
+//	//打开文件
+//	FILE* pf = fopen("test.txt", "r");//r：打开文件的方式是读取
+//	if (pf == NULL)//pf == NULL说明fopen()这个函数调用失败
+//	{
+//		//想知道打开文件失败的原因
+//		printf("%s\n", strerror(errno));//No such file or directory(没有这个文件或目录)
+//	}
+//	else
+//	{
+//		printf("open file success\n");
+//	}
+//
+//	//char* str2 = strerror(2);
+//	//printf("%s\n", str2);//打印结果:No such file or directory（没有这个文件和文件夹）
+//	return 0;
+//}
+
+
+//标准库包含了两组函数，用于操作单独的字符，它们的原型位于头文件ctype.h中。第一组函数用于对字符分类，而第2组函数用于转换字符。
+//
+//字符分类
+//每个分类函数接受一个包含字符值的整型参数。函数测试这个字符并返回一个整型值，表示真或假。（注意，标准并未指定任何特定值，所以有可能返回任何非零值。）
+//
+//下表列出了这些分类函数以及它们每个所执行的测试：
+//
+//字符分类
+//函数	如果它的参数符合下列条件就返回真
+//iscntrl	任何控制字符
+//isspace	空白字符：空格‘ ’，换页‘\f’，换行'\n'，回车'\r'，制表符'\t'，或垂直制表符'\v'
+//isdigit	十进制数字0~9
+//isxdigit	十六进制数字，包括所有十进制数字，小写字母a~f, 大写字母A~F
+//islower	小写字母a~z
+//isupper	大写字母A~Z
+//isalpha	字母a~z或A~Z
+//isalnum	字母或数字a~z，A~Z或0~9
+//ispunct	标点符号，任何不属于数字或字母的图像字符（可打印符号）
+//isgraph	任何图像字符
+//isprint	任何可打印字符，包括图像字符和空白字符
+//
+//
+//字符转换
+//转换函数把大写字母转换为小写字母或者把小写字母转换为大写字母。
+//
+//int tolower(int ch);//转小写
+//
+//int toupper(int ch);//转大写
+//
+//toupper 函数返回其参数的对应大写形式，tolower函数返回其参数对应的小写形式。如果函数的参数并不是处于适当大小写状态的字符（即toupper的参数不是小写字母或tolower的参数不是大写字母），函数将不修改参数直接返回。
+
+
+//字符分类例子
+#include<ctype.h>
+//int main()
+//{
+//	char ch = 'w';
+//	int ret=islower(ch);//判断是否为小写字母，如果是小写字符则返回非0值，若不是小写字符则返回0。
+//	printf("%d\n", ret);//2
+//
+//	//字符转换
+//	//转换函数把大写字母转换为小写字母或者把小写字母转换为大写字母。
+//	char ch1 = tolower('Q');
+//	putchar(ch1);//putchar打印字符，结果是：q
+//	return 0;
+//}
+
+//想把字符串的中的所有大写转为小写
+//int main()
+//{
+//	char arr[] = "I Am A Student";
+//	int i = 0;
+//	while (arr[i])
+//	{
+//		if (isupper(arr[i]))//isupper函数判断是否是大写
+//		{
+//			arr[i] = tolower(arr[i]);
+//		}
+//		i++;
+//	}
+//	printf("%s\n", arr);//i am a student
+//	return 0;
+//}
+
+//memcpy 内存拷贝
+//void* memcpy (void* destination,const void* source,size_t num);//这里的num是source的内存大小。
+// void* ：通用类型的指针-无类型指针
+//函数memcpy从source的位置开始向后复制num个字节的数据到destination的内存位置。
+// 这个函数在遇到'\0'的时候并不会停下来
+//如果source和destination有任何重叠，复制的结果都是未定义的。
+//
+//struct S
+//{
+//	char name[20];
+//	int age;
+//};
+//int main()
+//{
+//	int arr[] = { 1,2,3,4,5 };
+//	int arr1[6] = { 0 };
+//	memcpy(arr1, arr, sizeof(arr));
+//	struct S arr3[] = { {"gss",20},{"hhhh",25},{"gss",20},{"hhhh",25} };
+//	struct S arr4[5] = { 0 };
+//	memcpy(arr3, arr4, sizeof(arr3));//如果源内容占空间大于目标空间则，严重性	代码	说明	项目	文件	行	禁止显示状态
+////	警告	C6385	从“arr4”中读取的数据无效 : 可读大小为“72”个字节，但可能读取了“96”个字节。	Run-Time Check Failure #2 - Stack around the variable 'arr1' was corrupted.
+//	return 0;
+//}
+
+//自己实现一个my_memcpy()
+//#include<assert.h>
+//void*  my_memcpy(void* des, const void* sou, size_t num)//返回的是des的地址
+//{
+// void* ret = des;
+//	//void* 不能解引用也不能+ -；
+//	assert(des != NULL);
+//	assert(sou != NULL);
+//	char* cdes = (char*)des;//强转char*，单位一个字节
+//	char* csou = (char*)sou;
+//	//if (sizeof(des) < sizeof(sou))
+//	//{
+//
+//	//}
+//	while (num--)
+//	{
+//		*cdes++ =*csou++ ;
+//	}
+// return des;
+//}
+
+//void* my_memcpy(void* des, const void* sou, size_t num)//返回的是des的地址
+//{
+//	void* ret = des;
+//	//void* 不能解引用也不能+ -；
+//	assert(des != NULL);
+//	assert(sou != NULL);
+//	while (num--)
+//	{
+//		*(char*)des = *(char*)sou;
+//		++(char*)des;
+//		++(char*)sou;
+//	}
+//	return des;
+//}
+
+//int main()
+//{
+//	int arr1[] = { 1,2,3,4,5 };
+//		int arr2[5] = { 0 };
+//
+//		my_memcpy(arr2, arr1, sizeof(arr1));
+//	return 0;
+//}
+
+//如果source和destination有任何重叠，复制的结果都是未定义的。下面的例子解释这句话
+//int main()
+//{
+//	int arr[] = { 1,2,3,4,5,6,7,8,9 };
+//	//想把2345的值拷贝到3456的位置，是用memcpy不行因为在运行过程中在拷贝的过程中改变了源空间里的值。
+//	my_memcpy(arr + 2, arr, 20);//内存中的值
+//	return 0;
+//}
+
+
+//memmove 处理重叠的问题
+//void memmove (void* dest,const void* src,size_t num);
+
+//int main()
+//{
+//	int i = 0;
+//	int arr[] = { 1,2,3,4,5,6,7,8,9 };
+//	//想把3456的值拷贝到2345的位置，是用memcpy不行因为在运行过程中在拷贝的过程中改变了源空间里的值。
+//	memmove(arr + 2, arr, 20);//内存中的值
+//	for (i = 0; i < 9; i++)
+//	{
+//		printf("%d ", arr[i]);//1 2 1 2 3 4 5 8 9
+//	}
+//	return 0;
+//}
+
+//自我实现my_memmove();
+//#include<assert.h>
+//void my_memmove(void* dest, const void* src, size_t num)
+//{
+//	assert(dest != NULL);
+//	assert(src != NULL);
+//	void* ret = dest;
+//	if (dest > src &&dest<((char*)src)+ num)//从后往前copy，逆序拷贝(dest范围是在src与(char*)src+count之间)，
+//		//（dest>(char*)src+count）而dest范围src+count的右边（可以从前->后或从后->前）
+//	{
+//		while (num--)
+//		{
+//			*((char*)(dest)+num )= *((char*)(src)+num);
+//		}
+//
+//	}
+//
+//	if (dest < src)//dest在src右边是，从前往后copy，逆序拷贝
+//	{
+//		while (num--)
+//				{
+//					*(char*)dest = *(char*)src;
+//					++(char*)dest;
+//					++(char*)src;
+//				}
+//	}
+//	return ret;
+//}
+////上面判断语句也可写成：
+////1.if(dest>src || dest>(char*)src+num){前->后}；else{后->前}；
+////2.if(dest>src){前->后};else{后->前}；
+//
+//int main()
+//{
+//	int i = 0;
+//		int arr[] = { 1,2,3,4,5,6,7,8,9 };
+//		
+//		my_memmove(arr + 2, arr, 20);
+//		for (i = 0; i < 9; i++)
+//		{
+//			printf("%d ", arr[i]);
+//		}
+//	return 0;
+//}
+
+//memcmp 内存比较
+// 头文件
+//#include <string.h>或#include<memory.h>
+//返回值
+//如果返回值 < 0，则表示 str1 小于 str2。
+//	如果返回值 > 0，则表示 str2 小于 str1。
+//	如果返回值 = 0，则表示 str1 等于 str2。
+//int memcmp(const void* ptr1,const void* ptr2,size_t num);
+//int main()
+//{
+//    //01 00 00 00 02 00 00 00 03 00 00 00......
+//    int arr1[] = {1,2,3,4,5,6,7,8};
+//    //01 00 00 00 02 00 00 00 05 00 00 00......
+//    int arr2[] = { 1,2,5,3,2,6,2 };
+//    int ret = memcmp(arr1, arr2, 9);//8单位是字节
+//    printf("%d\n", ret);//-1
+//    return 0;
+//}
+
+
+//memset --内存设置
+//memset--set buffers to a specified character--设置缓冲区为一个特定的字符
+//void* memset(void* dest,int c,size_t count):dest-Pointer to destination;c:Character to set:要设置的字符
+//count:Number of characters.
 int main()
 {
-	//192.168.31.121
-	//192  168 31 121
-	//1283784@qq.com
-	//1283784 qq com
-	char arr1[] = "192.168.31.121";
-	char* p1 = ".";
-	char arr[] = "1283784@qq.com";
-	char* p = "@.";//这是存分隔符的数组
-	//strtok这个函数是从arr这个数组中找p里的分隔符，先找到了@这个分隔符时把@改为'\0',在把首元素1的地址返回，从1的地址
-	//在往回打印：打印出1283784遇到'\0'停止，在调strtok这个函数是在从刚刚'\0'这个位置起始再找'.'找到后把'.'改为’\0'
-	//在把之前\0的地址返回打印出qq,在调用strtok函数，再以上一个\0为起始找一直找到arr[]结尾的字符串，打印出来com。
-	char buf[1024] = { 0 };
-	strcpy(buf, arr);//在buf中拷贝arr
-	char* ret = NULL;//接收函数返回值，（如果字符串中不存在更多的标记，则返回NULL指针）
-	for (ret = strtok(buf, p); ret != NULL;ret=strtok(NULL,p))//ret = strtok(buf, p)这个是触发条件,
-		//满足ret != NULL说明字符串中存在更多的标记打印字符串,在执行ret=strtok(NULL,p)；这里的NULL指要拿第二个标记
-		//并放入ret中
-	{
-		printf("%s\n", ret);
-	}
+	//char arr[10] = "";
+	//memset(arr, '#', 10);//在arr的内存中放入10字节个#
 
-	////切割buf
-	////第一次切割
-	//char* ret = strtok(buf, p);//这里ret是1的地址，这个函数把第一个\0的位置记住了。
-	//printf("%s\n", ret);//1283784
-	////第二次切割
-	//ret = strtok(NULL, p);//把'.'找到并改为‘\0'返回q的地址，并记住'\0'的地址
-	//printf("%s\n", ret);//qq
-	////第三次切割
-	//ret = strtok(NULL, p);//从c开始找发现后面没有标记了
-	//printf("%s\n", ret);//com
+	//错误示范：
+	int arr[10] = { 0 };//这个数组有40个字节
+	//修改后改为：01 01 01 01 01 01 01 01 01 01 00  00  00 ......
+	memset(arr, 1, 10);//10：是十个字节，修改这十个字节的内容
+
 	return 0;
 }
